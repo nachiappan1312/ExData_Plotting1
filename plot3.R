@@ -1,0 +1,15 @@
+col_class = c("character","character","numeric","numeric","numeric","numeric","numeric","numeric","numeric")
+dat = read.csv("household_power_consumption.txt",sep = ";",colClasses = col_class,na.strings = "?")
+dat$Date =as.Date(dat$Date,"%d/%m/%Y")
+
+x <- which(dat$Date == "2007-02-01")
+y <- which(dat$Date == "2007-02-02")
+z<- c(x,y)
+dat = dat[z,]
+#dat$Date = as.character(dat$Date)
+dat$dtime = strptime(paste(dat$Date,dat$Time),"%Y-%m-%d %H:%M:%S")
+dat1 <- data.frame(dat$dtime,dat$Sub_metering_1,dat$Sub_metering_2,dat$Sub_metering_3)
+plot(dat$dtime,dat$Sub_metering_1,type = "l",col = "black",ylab = "Energy sub metering")
+lines(dat$dtime,dat$Sub_metering_2,col = "red")
+lines(dat$dtime,dat$Sub_metering_3,col = "blue")
+legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),col= c("black","red","blue"),lty= c(1,1))
